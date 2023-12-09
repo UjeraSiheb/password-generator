@@ -4,22 +4,26 @@ import java.awt.event.*;
 import java.util.Random;
 
 public class Password extends JFrame {
+    // UI components
     private JTextField lengthField;
     private JCheckBox letters;
     private JCheckBox symbol;
     private JCheckBox numbers;
     private JTextArea passwordArea;
 
+    // Constructor
     Password() {
         setTitle("Password Generator");
         setSize(400, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        // Initialize components
         initComponents();
         setLayout(new FlowLayout());
         setVisible(true);
     }
 
+    // Method to initialize components
     private void initComponents() {
         JLabel lengthLabel = new JLabel("Password Length");
         lengthField = new JTextField(10);
@@ -30,8 +34,10 @@ public class Password extends JFrame {
         passwordArea.setEditable(false);
         JButton generateButton = new JButton("Generate Password");
 
+        // Set up action listener for the Generate Password button
         generateButton.addActionListener(e -> generatePassword());
 
+        // Add components to the frame
         add(lengthLabel);
         add(lengthField);
         add(letters);
@@ -41,6 +47,7 @@ public class Password extends JFrame {
         add(passwordArea);
     }
 
+    // Method to generate a random password
     private void generatePassword() {
         int length = Integer.parseInt(lengthField.getText());
         boolean includeNumber = numbers.isSelected();
@@ -50,31 +57,39 @@ public class Password extends JFrame {
         passwordArea.setText(password);
     }
 
+    // Method to generate a random password 
     private String randomPassword(int length, boolean includeNumber, boolean includeSymbol, boolean includeLetters) {
         StringBuilder password = new StringBuilder();
         String letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String numbers = "0123456789";
         String symbols = "!@#$%^&*()_+";
-        String charsall = "";
+        String charsAll = "";
+
+        // Include selected character sets
         if (includeNumber) {
-            charsall += numbers;
+            charsAll += numbers;
         }
         if (includeSymbol) {
-            charsall += symbols;
+            charsAll += symbols;
         }
         if (includeLetters) {
-            charsall += letters;
+            charsAll += letters;
         }
+
+        // Generate the random password
         Random random = new Random();
         for (int i = 0; i < length; i++) {
-            int randomIndex = random.nextInt(charsall.length());
-            char randomChar = charsall.charAt(randomIndex);
+            int randomIndex = random.nextInt(charsAll.length());
+            char randomChar = charsAll.charAt(randomIndex);
             password.append(randomChar);
         }
+
+        // Return the generated password
         return password.toString();
     }
 
-     public static void main(String[] args) {
+    // Main method to start the application
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Password());
     }
 }
